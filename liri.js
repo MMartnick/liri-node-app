@@ -1,5 +1,5 @@
 require("dotenv").config();
-var keys = require("./keys.js");
+var keys = require("./keys");
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var request = require("request");
@@ -37,12 +37,8 @@ function mySwitch() {
 function myTweets() {
 	console.log("Twitter posts");
 	//variable for twitter keys
-	var client = new Twitter({
-		consumer_key: process.env.TWITTER_CONSUMER_KEY,
-		consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-		access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-		access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-	});
+	var client = new Twitter(keys.twitter);
+
 
 	var params = {
 		screen_name: "13_Jack_O",
@@ -58,8 +54,9 @@ function myTweets() {
 	client.get("statuses/user_timeline", params, function (error, tweets, response) {
 		if (!error) {
 			for (i = 0; i < tweets.length; i++) {
-				var returnedData = ("Number: " + (i + 1) + "\n" + tweets[i].created_at + "\n" + tweets[i].text + "\n");
-				console.log(returnedData);
+				// var returnedData = ("Number: " + (i + 1) + "\n" + tweets[i].created_at + "\n" + tweets[i].text + "\n");
+				console.log(tweets[i].created_at);
+				console.log(tweets[i].text);
 
 			}
 		};
@@ -73,7 +70,7 @@ function mySpotify() {
 	var spotify = new Spotify({
 		id: process.env.SPOTIFY_ID,
 		secret: process.env.SPOTIFY_SECRET
-	});
+	});	
 	//variable for search.
 
 	var searchVar;
